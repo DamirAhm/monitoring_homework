@@ -9,7 +9,6 @@ const axiosInstance = axios.create({
 
 const orderIds = [
     '200a52bf-fcf8-463b-baac-abaea9f94401',
-    'e06d1ce0-251c-4b2b-a09b-c4d7f7cc0c7b',
     '27ac8932-6be5-4b83-9a17-30a17604b658',
     '2662f202-199e-47b3-9b81-4c29ec3575ba',
     '87ef61d6-f491-43d8-90fa-755dff7a6b11',
@@ -19,25 +18,6 @@ const orderIds = [
     'aac7bf07-add0-4353-aac7-5dc403697ae1',
     '1d8ef461-22b7-40d2-ad27-0668478a7830',
     'efb96e99-41c0-4ef6-8e30-cb7e618543da',
-    '2662f202-199e-47b3-9b81-4c29ec3575ba',
-    'bcdbb677-304e-4035-8aa2-75e3caa9cb31',
-    'b75c2fe8-9fdf-4be3-955a-3d739718e58c',
-    'fc731a43-cb10-489d-832d-57c145ea396c',
-    'b98ae38a-cd14-4f37-af3f-1a41d06565aa',
-    'efb96e99-41c0-4ef6-8e30-cb7e618543da',
-    'b6a13406-8c05-44c3-8428-b6970322ba97',
-    'e61c5319-ff40-49c4-ae59-7c4bc1487239',
-    'dd9303ef-ecda-4c2e-a155-6cd7d61a9f45',
-    'e06d1ce0-251c-4b2b-a09b-c4d7f7cc0c7b',
-    'c5f7ca7f-72aa-4f05-857a-e3b286e64d13',
-    'f78506a0-9c6f-4cf1-81b0-df459ac13413',
-    'c02722b3-1f29-4c90-86fa-4bbba4513dec',
-    '268fb4b7-00c4-4468-b470-b16736f1079a',
-    'd45f3e52-e66a-4500-b9e4-800d644edbbd',
-    '1fe0e6de-1efd-4955-afdc-ee3e340fbde6',
-    'af7fb641-dd72-4745-ac43-82c398e37a6a',
-    '81c11d16-ffb9-4693-aebc-d85d393d2ddc',
-    '39a6118d-2115-4f15-8e0b-e0be2664361f'
 ]
 
 const sendRequestForUsers = () => {
@@ -75,7 +55,7 @@ function generateTraffic() {
     setInterval(() => {
         sendRandomRequests(sendRequestForUsers);
         sendRandomRequests(sendRequestForProduct);
-        sendRandomRequests(sendRequestForOrder, 4);
+        sendRandomRequests(sendRequestForOrder, 2);
     }, 1000);
 }
 
