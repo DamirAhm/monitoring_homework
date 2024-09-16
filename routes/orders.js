@@ -7,6 +7,4 @@ export const ordersHandler = async (req, res) => {
     const orders = await readDataFromDB('orders.json');
 
     await writeDataFromDB('orders.json', [...orders, body]);
-
-    return res.end();
 }

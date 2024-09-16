@@ -1,8 +1,7 @@
 import promClient from 'prom-client';
 
-export const metricsHandler = async (req, res) => {
-    res.set('Content-Type', registry.contentType);
-    res.end(await registry.metrics());
+export const metricsHandler = async (req, rep) => {
+    rep.send(await registry.metrics());
 }
 
 // Регистрируем реестр метрик для Prometheus
@@ -16,12 +15,6 @@ const httpRequestDurationSeconds = new promClient.Histogram({
     registers: [registry],
 });
 
-export const metricsMiddleware = (req, res, next) => {
-    const end = httpRequestDurationSeconds.startTimer();
-
-    res.on('finish', () => {
-        end({ method: req.method, endpoint: req.path, status_code: res.statusCode });
-    });
-
-    next();
+export const metricsHook = (req, rep) => {
+    httpRequestDurationSeconds.observe( { method: req.method, endpoint: req.routeOptions.url, status_code: rep.statusCode }, rep.elapsedTime / 1000);
 }
