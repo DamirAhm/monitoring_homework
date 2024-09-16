@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  node-server:
+    build:
+      context: ..
+      dockerfile: docker/server.Dockerfile
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+
+  load-generator:
+    environment:
+      SERVER_HOST: 'http://node-server:3000'
+    build:
+      context: ..
+      dockerfile: docker/trafficGenerator.Dockerfile
+    depends_on:
+      - node-server
+    networks:
+      - app-network
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ../prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
