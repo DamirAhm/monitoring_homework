@@ -43,19 +43,21 @@ const sendRequestForOrder = () => {
 }
 
 const sendRandomRequests = (requestFn, rps = 50) => {
-    const amount = Math.floor(Math.random() * (rps + 0.5));
+    try {
+        const amount = Math.floor(Math.random() * (rps + 0.5));
 
-    for (let i = 0; i < amount; i++) {
-        const delay = Math.floor(Math.random() * 1000);
-        setTimeout(() => requestFn(), delay);
-    }
+        for (let i = 0; i < amount; i++) {
+            const delay = Math.floor(Math.random() * 1000);
+            setTimeout(() => requestFn(), delay);
+        }
+    } catch (e) {}
 }
 
 function generateTraffic() {
     setInterval(() => {
         sendRandomRequests(sendRequestForUsers);
         sendRandomRequests(sendRequestForProduct);
-        sendRandomRequests(sendRequestForOrder, 2);
+        sendRandomRequests(sendRequestForOrder, 1);
     }, 1000);
 }
 

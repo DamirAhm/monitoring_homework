@@ -9,6 +9,22 @@ services:
       - "3000:3000"
     networks:
       - app-network
+    volumes:
+      - ../logs:/log/app
+
+  promtail:
+    image: grafana/promtail:latest
+    volumes:
+      - ../promtail-config.yaml:/etc/promtail/promtail-config.yaml
+      - ../logs:/log/app
+      - /var/log:/var/log
+      - /var/lib/docker/containers:/var/lib/docker/containers
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: -config.file=/etc/promtail/promtail-config.yaml
+    depends_on:
+      - node-server
+    networks:
+      - app-network
 
   load-generator:
     environment:
@@ -29,6 +45,35 @@ services:
       - "9090:9090"
     networks:
       - app-network
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - prometheus
+      - loki
+    networks:
+      - app-network
+    volumes:
+      - grafana-storage:/var/lib/grafana
+
+  loki:
+    image: grafana/loki:latest
+    ports:
+      - "3100:3100"
+    networks:
+      - app-network
+    volumes:
+      - loki-storage:/etc/loki
+    command: -config.file=/etc/loki/local-config.yaml
+
+volumes:
+  grafana-storage:
+  loki-storage:
+
 
 networks:
   app-network:
