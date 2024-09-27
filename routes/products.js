@@ -1,4 +1,4 @@
-import {readDataFromDB} from "../utils/readDataFromDB.js";
+import {readDataFromDB} from "../utils/db.js";
 
 export const productsHandler = async (req, res) => {
     const data = await readDataFromDB('products.json')

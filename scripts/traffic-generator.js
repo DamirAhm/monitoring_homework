@@ -1,13 +1,13 @@
 import axios from 'axios';
-import { faker } from '@faker-js/faker';
+import {faker} from '@faker-js/faker';
 
-const baseURL = process.env.SERVER_HOST;
+const baseURL = process.env.SERVER_HOST || 'http://localhost:3000';
 
 const axiosInstance = axios.create({
     baseURL
 })
 
-const orderIds = [
+const productIds = [
     '200a52bf-fcf8-463b-baac-abaea9f94401',
     '27ac8932-6be5-4b83-9a17-30a17604b658',
     '2662f202-199e-47b3-9b81-4c29ec3575ba',
@@ -25,12 +25,13 @@ const sendRequestForUsers = () => {
 }
 
 const sendRequestForProduct = () => {
-    const orderId = orderIds[Math.floor(Math.random() * orderIds.length)];
+    const orderId = productIds[Math.floor(Math.random() * productIds.length)];
 
     return axiosInstance.get(    `/api/products?productId=${orderId}`);
 }
 
-const sendRequestForOrder = () => {
+const orderIds = []
+const sendRequestForOrder = async () => {
     const newOrder ={
         id: faker.string.uuid(),
         name: faker.internet.userName(),
@@ -39,7 +40,21 @@ const sendRequestForOrder = () => {
         created_at: new Date().toISOString(),
     }
 
-    return axiosInstance.post(    `/api/orders`, newOrder);
+    await axiosInstance.post(    `/api/orders`, newOrder);
+    orderIds.push(newOrder.id);
+}
+const sendRequestToDeleteOrder = () => {
+    if (orderIds.length > 0) {
+        const id = faker.helpers.arrayElement(orderIds);
+
+        orderIds.splice(orderIds.indexOf(id), 1);
+
+        return axiosInstance.delete('/api/orders', {
+            data: {
+                id
+            }
+        })
+    }
 }
 
 const sendRandomRequests = (requestFn, rps = 50) => {
@@ -57,7 +72,8 @@ function generateTraffic() {
     setInterval(() => {
         sendRandomRequests(sendRequestForUsers);
         sendRandomRequests(sendRequestForProduct);
-        sendRandomRequests(sendRequestForOrder, 1);
+        sendRandomRequests(sendRequestForOrder, 2);
+        sendRandomRequests(sendRequestToDeleteOrder, 4);
     }, 1000);
 }
 

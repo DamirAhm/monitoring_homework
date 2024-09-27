@@ -4,6 +4,26 @@
 $ docker compose -f ./docker/docker-compose.yml -p docker up -d
 ```
 
+### Описание эндпоинтов
+
+GET /api/users - возвращает список пользователей
+GET /api/products?productId - возвращает продукт по его id, пример id - 200a52bf-fcf8-463b-baac-abaea9f94401
+POST /api/orders - создает заказ
+DELETE /api/orders - удаляет заказ по id
+
+### Метрики
+
+В проекте задана единственная метрика типа Histogram
+http_request_duration_seconds - время ответа на запросы в секундах
+Информация в метрике содержит:
+```
+{ 
+    method - HTTP метод запроса
+    endpoint - path эндпоинта на который пришел запрос 
+    status_code - код ответа  
+}
+```
+
 ### Задание
 
 1. Запустите приложение
@@ -19,7 +39,7 @@ $ docker compose -f ./docker/docker-compose.yml -p docker up -d
 
 ### Вне зачета
 
-Вместе с prometheus в docker compose также поднимаются сервисы graphana (на порту 3001) для визуализации метрик и логов и loki (на порту 3100) для сбора и хранения логов
+Вместе с prometheus в docker-compose также поднимаются сервисы graphana (на порту 3001) для визуализации метрик и логов и loki (на порту 3100) для сбора и хранения логов
 Авторизоваться в graphana модно с логином и паролем admin 
 Чтобы подключить prometheus и loki к graphana в качестве источников данных вам необходимо вместо хоста указывать имя необходимого сервиса (http://prometheus:9090 и http://loki:3100 соответственно)
 Также учитывайте, что чтобы запуститься, Loki требуется некоторое время, его статус можно узнать сделав запрос на http://localhost:3100/ready

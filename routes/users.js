@@ -1,4 +1,4 @@
-import {readDataFromDB} from "../utils/readDataFromDB.js";
+import {readDataFromDB} from "../utils/db.js";
 
 export const usersHandler = async (req, res) => {
     // TODO Нужно для теста, не забыть убрать!!!

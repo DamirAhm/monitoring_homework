@@ -7,6 +7,9 @@ services:
       dockerfile: docker/server.Dockerfile
     ports:
       - "3000:3000"
+    environment:
+      HOST: '0.0.0.0'
+      PORT: '3000'
     networks:
       - app-network
     volumes:
