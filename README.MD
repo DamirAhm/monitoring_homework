@@ -6,10 +6,13 @@ $ docker compose -f ./docker/docker-compose.yml -p docker up -d
 
 ### Описание эндпоинтов
 
-GET /api/users - возвращает список пользователей
-GET /api/products?productId - возвращает продукт по его id, пример id - 200a52bf-fcf8-463b-baac-abaea9f94401
-POST /api/orders - создает заказ
-DELETE /api/orders - удаляет заказ по id
+**GET /api/users** - возвращает список пользователей
+
+**GET /api/products?productId** - возвращает продукт по его id, пример id - 200a52bf-fcf8-463b-baac-abaea9f94401
+
+**POST /api/orders** - создает заказ
+
+**DELETE /api/orders** - удаляет заказ по id
 
 ### Метрики
 
