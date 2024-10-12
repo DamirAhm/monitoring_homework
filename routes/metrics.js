@@ -15,6 +15,13 @@ const httpRequestDurationSeconds = new promClient.Histogram({
     registers: [registry],
 });
 
+export const requestedProduct = new promClient.Counter({
+    name: 'requested_product',
+    help: 'Number of requests for product',
+    labelNames: ['productId'],
+    registers: [registry]
+})
+
 export const metricsHook = (req, rep) => {
     httpRequestDurationSeconds.observe( { method: req.method, endpoint: req.routeOptions.url, status_code: rep.statusCode }, rep.elapsedTime / 1000);
 }
