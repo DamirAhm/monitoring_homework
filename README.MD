@@ -31,9 +31,12 @@ http_request_duration_seconds - время ответа на запросы в �
 
 1. Запустите приложение
 2. Постройте в prometheus (находится на http://localhost:9090) график по метрике http_request_duration_seconds по каждому endpoint
+    - `histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket[10s])) by (le, endpoint))`
 3. В одной из ручек специально оставлено некорректное поведение. Найдите при помощи построенной визуализации endpoint который выбивается из графиков и исправьте найденную ошибку в коде
 4. На роут /api/products добавьте метрику, по которой можно будет понять, какие продукты запрашивают чаще всего, постройте график в prometheus
+    - `sum(requested_product) by (productId)`
 5. Добавьте в проект логгер и на роут /api/orders добавьте логирование создания нового заказа
+   - `count_over_time({ job=~".+" } |= "new order created" [1m])`
 
 ### Задания под звездочкой 
 
